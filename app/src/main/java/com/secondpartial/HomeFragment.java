@@ -3,10 +3,15 @@ package com.secondpartial;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,19 +51,30 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+
+    RecyclerView rcv_users;
+    List<User> userList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        rcv_users = view.findViewById(R.id.rcv_users);
+
+
+        userList.add(new User("Risotto Groupon", "Dead", "Human", "https://rickandmortyapi.com/api/character/avatar/72.jpeg"));
+        userList.add(new User("Shleemypants", "Alive", "Alien", "https://rickandmortyapi.com/api/character/avatar/120.jpeg"));
+        userList.add(new User("Pencilvester", "Alive", "Parasite", "https://rickandmortyapi.com/api/character/avatar/190.jpeg"));
+        userList.add(new User("Trandor", "Dead", "Human", "https://rickandmortyapi.com/api/character/avatar/241.jpeg"));
+
+
+        rcv_users.setLayoutManager(new LinearLayoutManager((getContext())));
+        rcv_users.setAdapter(new UserAdapter( userList ));
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return view;
     }
 }
